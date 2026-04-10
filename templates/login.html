@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login | SyncFlow</title>
+  <link rel="stylesheet" href="{% static 'css/login.css' %}" />
+</head>
+<body>
+  <div class="background-glow"></div>
+
+  <main class="login-page">
+    <div class="login-card">
+      <div class="logo-area">
+        <img src="{% static 'img/syncflow.png' %}" alt="Logo SyncFlow" class="logo" />
+        <h1>SyncFlow</h1>
+        <p>Acesse sua plataforma inteligente</p>
+      </div>
+
+      <form class="login-form">
+        <div class="input-group">
+          <label for="email">E-mail</label>
+          <input type="email" id="email" name="email" placeholder="Digite seu e-mail" required />
+        </div>
+
+        <div class="input-group">
+          <label for="senha">Senha</label>
+          <input type="password" id="senha" name="senha" placeholder="Digite sua senha" required />
+        </div>
+
+        <div class="form-options">
+          <label class="remember">
+            <input type="checkbox" />
+            <span>Lembrar acesso</span>
+          </label>
+
+          <a href="#" class="forgot-password">Esqueci minha senha</a>
+        </div>
+
+        <button type="submit" class="login-btn">Entrar</button>
+      </form>
+    </div>
+  </main>
+</body>
+</html>
