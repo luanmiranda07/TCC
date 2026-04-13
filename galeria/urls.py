@@ -4,6 +4,6 @@ from galeria.views import index, login
 
 
 urlpatterns = [
-    path('', index, name='index'),
-    path('login/', login, name='login'),
+    path('index/', index, name='index'),
+    path('', login, name='login'),
 ]
