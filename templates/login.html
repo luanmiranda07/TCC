@@ -5,7 +5,274 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Login | SyncFlow</title>
-  <link rel="stylesheet" href="{% static 'css/login.css' %}" />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    :root {
+      --bg-dark: #050505;
+      --border: rgba(255, 255, 255, 0.08);
+      --green-primary: #9be000;
+      --green-secondary: #76c72d;
+      --green-soft: rgba(155, 224, 0, 0.14);
+      --text-main: #ffffff;
+      --text-soft: #b5b5b5;
+      --input-bg: #0b0b0b;
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top left, rgba(155, 224, 0, 0.12), transparent 25%),
+        radial-gradient(circle at bottom right, rgba(155, 224, 0, 0.08), transparent 20%),
+        linear-gradient(135deg, #030303, #0a0a0a 45%, #000000);
+      color: var(--text-main);
+    }
+
+    .page-wrapper {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .login-container {
+      width: 100%;
+      max-width: 1180px;
+      min-height: 460px;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      background: rgba(10, 10, 10, 0.94);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.6),
+        0 0 25px rgba(155, 224, 0, 0.08);
+      backdrop-filter: blur(10px);
+    }
+
+    .login-left {
+      position: relative;
+      background:
+        linear-gradient(rgba(0, 0, 0, 0.48), rgba(0, 0, 0, 0.72)),
+        url("{% static 'img/syncflow.png' %}") center center / 42% no-repeat,
+        linear-gradient(135deg, #111111, #050505);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 50px;
+    }
+
+    .overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(155, 224, 0, 0.03),
+        rgba(0, 0, 0, 0.18),
+        rgba(0, 0, 0, 0.55)
+      );
+    }
+
+    .brand-content {
+      position: relative;
+      z-index: 1;
+      max-width: 520px;
+      text-align: center;
+    }
+
+    .brand-content h1 {
+      font-size: 3rem;
+      color: var(--green-primary);
+      margin-bottom: 14px;
+      text-shadow: 0 0 18px rgba(155, 224, 0, 0.15);
+    }
+
+    .brand-content p {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: #e6e6e6;
+    }
+
+    .login-right {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 36px 34px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    }
+
+    .form-box {
+      width: 100%;
+      max-width: 350px;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: var(--green-soft);
+      color: var(--green-primary);
+      font-size: 0.85rem;
+      font-weight: bold;
+      margin-bottom: 16px;
+    }
+
+    .form-box h2 {
+      font-size: 1.9rem;
+      margin-bottom: 8px;
+      color: var(--text-main);
+    }
+
+    .subtitle {
+      color: var(--text-soft);
+      margin-bottom: 24px;
+      font-size: 0.95rem;
+    }
+
+    .login-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .input-group label {
+      font-size: 0.92rem;
+      color: #dddddd;
+      font-weight: 600;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: var(--input-bg);
+      color: var(--text-main);
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    .input-group input::placeholder {
+      color: #7b7b7b;
+    }
+
+    .input-group input:focus {
+      border-color: var(--green-primary);
+      box-shadow: 0 0 0 4px rgba(155, 224, 0, 0.08);
+    }
+
+    .form-options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .remember {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-soft);
+      font-size: 0.9rem;
+    }
+
+    .remember input {
+      accent-color: var(--green-primary);
+    }
+
+    .forgot-password {
+      text-decoration: none;
+      color: var(--green-primary);
+      font-size: 0.9rem;
+      transition: 0.2s ease;
+    }
+
+    .forgot-password:hover {
+      color: #c8ff4f;
+    }
+
+    .login-btn {
+      margin-top: 6px;
+      padding: 14px;
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(90deg, var(--green-secondary), var(--green-primary));
+      color: #000;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 25px rgba(155, 224, 0, 0.18);
+    }
+
+    .login-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px rgba(155, 224, 0, 0.28);
+    }
+
+    @media (max-width: 900px) {
+      .login-container {
+        grid-template-columns: 1fr;
+        min-height: auto;
+      }
+
+      .login-left {
+        min-height: 220px;
+        justify-content: center;
+        text-align: center;
+        padding: 28px;
+        background:
+          linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.75)),
+          url("{% static 'img/syncflow.png' %}") center center / 160px no-repeat,
+          linear-gradient(135deg, #111111, #050505);
+      }
+
+      .brand-content {
+        max-width: 100%;
+      }
+
+      .brand-content h1 {
+        font-size: 2.3rem;
+      }
+
+      .brand-content p {
+        font-size: 1rem;
+      }
+
+      .login-right {
+        padding: 28px 22px;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .page-wrapper {
+        padding: 16px;
+      }
+
+      .login-container {
+        border-radius: 20px;
+      }
+
+      .form-box h2 {
+        font-size: 1.6rem;
+      }
+    }
+  </style>
 </head>
 <body>
   <div class="page-wrapper">
@@ -13,8 +280,8 @@
 
       <section class="login-left">
         <div class="overlay"></div>
+
         <div class="brand-content">
-          <img src="{% static 'img/syncflow.png' %}" alt="Logo SyncFlow" class="brand-logo" />
           <h1>SyncFlow</h1>
           <p>
             Sua plataforma inteligente para gestão, automação e controle com mais eficiência.
