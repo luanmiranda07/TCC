@@ -42,39 +42,41 @@
     <div class="conteudo">
       <div class="painel">
         <h3>Cadastrar Produto</h3>
+        <form method="post" action="{% if produto_edicao %}{% url 'editar_produto' produto_edicao.id %}{% else %}{% url 'index' %}{% endif %}">
+          {% csrf_token %}
 
         <div class="campo">
           <label>Nome do Produto</label>
-          <input type="text" placeholder="Digite o nome do produto">
+          <input type="text" name="nome" placeholder="Digite o nome do produto" value="{{ produto_edicao.nome|default:'' }}" required>
         </div>
 
         <div class="linha">
           <div class="campo">
             <label>Categoria</label>
-            <select>
-              <option>Selecione</option>
-              <option>Bebidas</option>
-              <option>Alimentos</option>
-              <option>Limpeza</option>
-              <option>Higiene</option>
+            <select name="categoria" required>
+              <option value="">Selecione</option>
+              <option value="Bebidas" {% if produto_edicao.categoria == 'Bebidas' %}selected{% endif %}>Bebidas</option>
+              <option value="Alimentos" {% if produto_edicao.categoria == 'Alimentos' %}selected{% endif %}>Alimentos</option>
+              <option value="Limpeza" {% if produto_edicao.categoria == 'Limpeza' %}selected{% endif %}>Limpeza</option>
+              <option value="Higiene" {% if produto_edicao.categoria == 'Higiene' %}selected{% endif %}>Higiene</option>
             </select>
           </div>
 
           <div class="campo">
             <label>Quantidade</label>
-            <input type="number" placeholder="0">
+            <input type="number" name="quantidade" placeholder="0" min="0" value="{{ produto_edicao.quantidade|default:'' }}" required>
           </div>
         </div>
 
         <div class="linha">
           <div class="campo">
             <label>Preço</label>
-            <input type="text" placeholder="R$ 0,00">
+            <input type="text" name="preco" placeholder="R$ 0,00" value="{{ produto_edicao.preco|default:'' }}" required>
           </div>
 
           <div class="campo">
             <label>Código</label>
-            <input type="text" placeholder="Ex: PROD001">
+            <input type="text" name="codigo_barras" placeholder="Ex: PROD001" value="{{ produto_edicao.codigo_barras|default:'' }}" required>
           </div>
         </div>
 
@@ -83,7 +85,8 @@
           <input type="text" placeholder="Nome do fornecedor">
         </div>
 
-        <button class="btn salvar">Salvar Produto</button>
+        <button type="submit" class="btn salvar">{% if produto_edicao %}Atualizar Produto{% else %}Salvar Produto{% endif %}</button>
+        </form>
       </div>
 
       <div class="painel">
@@ -115,8 +118,12 @@
                 <td><span class="status ativo">Em estoque</span></td>
                 <td>
                     <div class="acoes">
-                      <button class="btn-acao editar">Editar</button>
-                      <button class="btn-acao excluir">Excluir</button>
+                      <form method="post" action="{% url 'excluir_produto' produto.id %}">
+                        {% csrf_token %}
+                      
+                        <button type="submit" class="btn-acao excluir">Excluir</button>
+                      </form>
+                        <a href="{% url 'editar_produto' produto.id %}" class="btn-acao editar">Editar</a>
                     </div>
                 </td>
             </tr>

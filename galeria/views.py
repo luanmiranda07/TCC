@@ -1,4 +1,7 @@
-from django.shortcuts import render
+from decimal import Decimal, InvalidOperation
+
+from django.contrib.auth.models import User
+from django.shortcuts import get_object_or_404, redirect, render
 
 from galeria.models import Produto
 
@@ -7,8 +10,68 @@ def login(request):
     return render(request, 'login.html')
 
 def index(request):
+    if request.method == 'POST':
+        nome = request.POST.get('nome', '').strip()
+        categoria = request.POST.get('categoria', '').strip()
+        quantidade = request.POST.get('quantidade', '').strip()
+        preco = request.POST.get('preco', '').strip().replace('R$', '').replace(' ', '').replace(',', '.')
+        codigo_barras = request.POST.get('codigo_barras', '').strip()
+
+        if nome and categoria and quantidade and preco and codigo_barras:
+            try:
+                usuario = User.objects.first()
+                if usuario is not None:
+                    Produto.objects.create(
+                        nome=nome,
+                        categoria=categoria,
+                        quantidade=int(quantidade),
+                        preco=Decimal(preco),
+                        codigo_barras=codigo_barras,
+                        usuario=usuario,
+                    )
+                    return redirect('index')
+            except (ValueError, InvalidOperation):
+                pass
+
     produtos = Produto.objects.all()
     dados = {
         'produtos': produtos
+    }
+    return render(request, 'index.html', dados)
+
+
+def excluir_produto(request, produto_id):
+    if request.method == 'POST':
+        produto = get_object_or_404(Produto, id=produto_id)
+        produto.delete()
+    return redirect('index')
+
+
+def editar_produto(request, produto_id):
+    produto = get_object_or_404(Produto, id=produto_id)
+
+    if request.method == 'POST':
+        nome = request.POST.get('nome', '').strip()
+        categoria = request.POST.get('categoria', '').strip()
+        quantidade = request.POST.get('quantidade', '').strip()
+        preco = request.POST.get('preco', '').strip().replace('R$', '').replace(' ', '').replace(',', '.')
+        codigo_barras = request.POST.get('codigo_barras', '').strip()
+
+        if nome and categoria and quantidade and preco and codigo_barras:
+            try:
+                produto.nome = nome
+                produto.categoria = categoria
+                produto.quantidade = int(quantidade)
+                produto.preco = Decimal(preco)
+                produto.codigo_barras = codigo_barras
+                produto.save()
+                return redirect('index')
+            except (ValueError, InvalidOperation):
+                pass
+
+    produtos = Produto.objects.all()
+    dados = {
+        'produtos': produtos,
+        'produto_edicao': produto,
     }
     return render(request, 'index.html', dados)
