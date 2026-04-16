@@ -106,62 +106,22 @@
             </tr>
           </thead>
           <tbody>
+              {% for produto in produtos %}
             <tr>
-              <td>Arroz 5kg</td>
-              <td>Alimentos</td>
-              <td>25</td>
-              <td>R$ 24,90</td>
-              <td><span class="status ativo">Em estoque</span></td>
-              <td>
-                <div class="acoes">
-                  <button class="btn-acao editar">Editar</button>
-                  <button class="btn-acao excluir">Excluir</button>
-                </div>
-              </td>
+                <td>{{ produto.nome }}</td>
+                <td>{{ produto.categoria }}</td>
+                <td>{{ produto.quantidade }}</td>
+                <td>{{ produto.preco }}</td>
+                <td><span class="status ativo">Em estoque</span></td>
+                <td>
+                    <div class="acoes">
+                      <button class="btn-acao editar">Editar</button>
+                      <button class="btn-acao excluir">Excluir</button>
+                    </div>
+                </td>
             </tr>
+              {% empty %}
             <tr>
-              <td>Refrigerante 2L</td>
-              <td>Bebidas</td>
-              <td>8</td>
-              <td>R$ 9,50</td>
-              <td><span class="status baixo">Baixo estoque</span></td>
-              <td>
-                <div class="acoes">
-                  <button class="btn-acao editar">Editar</button>
-                  <button class="btn-acao excluir">Excluir</button>
-                </div>
-              </td>
+              <td colspan="6">Nenhum produto cadastrado.</td>
             </tr>
-            <tr>
-              <td>Sabão em Pó</td>
-              <td>Limpeza</td>
-              <td>18</td>
-              <td>R$ 15,00</td>
-              <td><span class="status ativo">Em estoque</span></td>
-              <td>
-                <div class="acoes">
-                  <button class="btn-acao editar">Editar</button>
-                  <button class="btn-acao excluir">Excluir</button>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>Shampoo</td>
-              <td>Higiene</td>
-              <td>5</td>
-              <td>R$ 18,90</td>
-              <td><span class="status baixo">Baixo estoque</span></td>
-              <td>
-                <div class="acoes">
-                  <button class="btn-acao editar">Editar</button>
-                  <button class="btn-acao excluir">Excluir</button>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-</body>
-</html>
+              {% endfor %}
