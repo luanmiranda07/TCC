@@ -20,24 +20,24 @@
       <button class="btn">+ Novo Produto</button>
     </div>
 
-    <div class="cards">
-      <div class="card">
-        <span>Total de Produtos</span>
-        <h2>128</h2>
-      </div>
-      <div class="card">
-        <span>Em Estoque</span>
-        <h2>94</h2>
-      </div>
-      <div class="card">
-        <span>Baixo Estoque</span>
-        <h2>12</h2>
-      </div>
-      <div class="card">
-        <span>Categorias</span>
-        <h2>8</h2>
-      </div>
-    </div>
+	    <div class="cards">
+	      <div class="card">
+	        <span>Total de Produtos</span>
+	        <h2>{{ total_produtos }}</h2>
+	      </div>
+	      <div class="card">
+	        <span>Em Estoque</span>
+	        <h2>{{ total_estoque }}</h2>
+	      </div>
+	      <div class="card">
+	        <span>Baixo Estoque</span>
+	        <h2>{{ baixo_estoque }}</h2>
+	      </div>
+	      <div class="card">
+	        <span>Categorias</span>
+	        <h2>{{ total_categorias }}</h2>
+	      </div>
+	    </div>
 
     <div class="conteudo">
       <div class="painel">
@@ -115,7 +115,15 @@
                 <td>{{ produto.categoria }}</td>
                 <td>{{ produto.quantidade }}</td>
                 <td>{{ produto.preco }}</td>
-                <td><span class="status ativo">Em estoque</span></td>
+	                <td>
+                    {% if produto.quantidade == 0 %}
+                      <span class="status inativo">Sem estoque</span>
+                    {% elif produto.quantidade <= 5 %}
+                      <span class="status aviso">Baixo estoque</span>
+                    {% else %}
+                      <span class="status ativo">Em estoque</span>
+                    {% endif %}
+                  </td>
                 <td>
                     <div class="acoes">
                       <form method="post" action="{% url 'excluir_produto' produto.id %}">
