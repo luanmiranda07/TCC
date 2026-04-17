@@ -1,9 +1,11 @@
 from decimal import Decimal, InvalidOperation
 
 from django.contrib.auth.models import User
+from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 
 from galeria.models import Produto
+
 
 def index(request):
     if request.method == 'POST':
@@ -29,9 +31,18 @@ def index(request):
             except (ValueError, InvalidOperation):
                 pass
 
+    busca = request.GET.get('busca', '').strip()
     produtos = Produto.objects.all()
+    if busca:
+        produtos = produtos.filter(
+            Q(nome__icontains=busca)
+            | Q(categoria__icontains=busca)
+            | Q(codigo_barras__icontains=busca)
+        )
+
     dados = {
-        'produtos': produtos
+        'produtos': produtos,
+        'busca': busca,
     }
     return render(request, 'index.html', dados)
 

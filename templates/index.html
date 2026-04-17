@@ -92,10 +92,10 @@
       <div class="painel">
         <h3>Lista de Produtos</h3>
 
-        <div class="busca">
-          <input type="text" placeholder="Buscar produto...">
-          <button class="btn">Buscar</button>
-        </div>
+        <form class="busca" method="get" action="{% url 'index' %}">
+          <input type="text" name="busca" placeholder="Buscar produto..." value="{{ busca|default:'' }}">
+          <button type="submit" class="btn">Buscar</button>
+        </form>
 
         <table>
           <thead>
