@@ -5,10 +5,6 @@ from django.shortcuts import get_object_or_404, redirect, render
 
 from galeria.models import Produto
 
-
-def login(request):
-    return render(request, 'login.html')
-
 def index(request):
     if request.method == 'POST':
         nome = request.POST.get('nome', '').strip()

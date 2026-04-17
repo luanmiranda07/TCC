@@ -225,6 +225,26 @@
       box-shadow: 0 14px 30px rgba(155, 224, 0, 0.28);
     }
 
+    .register-text {
+      text-align: center;
+      color: var(--text-soft);
+      font-size: 0.95rem;
+      margin-top: 4px;
+    }
+
+    .register-link {
+      color: var(--green-primary);
+      font-weight: bold;
+      text-decoration: none;
+      margin-left: 4px;
+      transition: 0.2s ease;
+    }
+
+    .register-link:hover {
+      color: #c8ff4f;
+      text-decoration: underline;
+    }
+
     @media (max-width: 900px) {
       .login-container {
         grid-template-columns: 1fr;
@@ -328,8 +348,15 @@
 
               <a href="#" class="forgot-password">Esqueci minha senha</a>
             </div>
+            <form action="{% url 'login' %}" method="post">
+              {% csrf_token %}
+              <button type="submit" class="login-btn">Entrar</button>
+            </form>
 
-            <button type="submit" class="login-btn">Entrar</button>
+            <p class="register-text">
+              Não tem uma conta?
+              <a href="{% url 'cadastrar_pessoa' %}" class="register-link">Cadastrar</a>
+            </p>
           </form>
         </div>
       </section>

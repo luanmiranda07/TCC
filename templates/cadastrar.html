@@ -1,0 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cadastro | SyncFlow</title>
+  <link rel="stylesheet" href="{% static 'css/cadastrar.css' %}" />
+</head>
+<body>
+  <div class="page-wrapper">
+    <div class="register-container">
+      <section class="register-left">
+        <div class="overlay"></div>
+
+        <div class="brand-content">
+          <h1>SyncFlow</h1>
+          <p>
+            Crie sua conta para acessar a plataforma e gerenciar seus produtos com mais controle.
+          </p>
+        </div>
+      </section>
+
+      <section class="register-right">
+        <div class="form-box">
+          <span class="tag">Novo acesso</span>
+          <h2>Criar conta</h2>
+          <p class="subtitle">Preencha os dados para continuar</p>
+
+          <form class="register-form" method="post">
+            {% csrf_token %}
+
+            <div class="input-group">
+              <label for="nome">Nome</label>
+              <input
+                type="text"
+                id="nome"
+                name="nome"
+                placeholder="Digite seu nome"
+                required
+              />
+            </div>
+
+            <div class="input-group">
+              <label for="email">E-mail</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Digite seu e-mail"
+                required
+              />
+            </div>
+
+            <div class="input-group">
+              <label for="senha">Senha</label>
+              <input
+                type="password"
+                id="senha"
+                name="senha"
+                placeholder="Digite sua senha"
+                required
+              />
+            </div>
+
+            <button type="submit" class="register-btn">Cadastrar</button>
+
+            <p class="login-text">
+              Já tem uma conta?
+              <a href="{% url 'login' %}" class="login-link">Entrar</a>
+            </p>
+          </form>
+        </div>
+      </section>
+    </div>
+  </div>
+</body>
+</html>
