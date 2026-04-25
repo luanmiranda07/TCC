@@ -6,7 +6,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SyncFlow | Gerenciador de Produtos</title>
-  <link rel="stylesheet" href="{% static 'admin/css/style.css' %}" />
+  <link rel="stylesheet" href="{% static 'admin/css/style.css' %}?v=2" />
 </head>
 <body>
   <div class="overlay"></div>
@@ -17,7 +17,7 @@
         <h1>Gerenciador de Produtos</h1>
         <p>Controle simples, inteligente e visual dos seus produtos</p>
       </div>
-      <button class="btn">+ Novo Produto</button>
+      <a href="#form-produto" class="btn">+ Novo Produto</a>
     </div>
 
 	    <div class="cards">
@@ -40,7 +40,7 @@
 	    </div>
 
     <div class="conteudo">
-      <div class="painel">
+      <div class="painel" id="form-produto">
         <h3>Cadastrar Produto</h3>
         <form method="post" action="{% if produto_edicao %}{% url 'editar_produto' produto_edicao.id %}{% else %}{% url 'index' %}{% endif %}">
           {% csrf_token %}
